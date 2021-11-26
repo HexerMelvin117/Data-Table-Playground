@@ -4,6 +4,7 @@ import Table from './components/Table';
 import mockData from './mockData';
 
 function App() {
+  // Field por accesor
   return (
     <div className="App">
       <Table
@@ -13,16 +14,20 @@ function App() {
           {
             header: 'Surname',
             accessor: 'surname',
-            cell: person => {
+            cell: ({ value, row }) => {
+              console.log(row);
               return (
                 <div>
                   <span style={{ fontWeight: 600, cursor: 'pointer' }}>
-                    {person.row.values.surname}
+                    {value}
                   </span>
                 </div>
               );
             }
-          }
+          },
+          { header: 'Occupation', accessor: 'occupation' },
+          { header: 'Alias', accessor: 'alias' },
+          { header: 'Options', accessor: '',  cell: ({ value, row }) => <div>{row.values.name}</div> }
         ]}
       />
     </div>
