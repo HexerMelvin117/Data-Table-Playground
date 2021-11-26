@@ -27,7 +27,10 @@ function App() {
           },
           { header: 'Occupation', accessor: 'occupation' },
           { header: 'Alias', accessor: 'alias' },
-          { header: 'Options', accessor: '',  cell: ({ value, row }) => <div>{row.values.name}</div> }
+          { header: 'Options',  accessor: (originalRow) => {
+            console.log(originalRow.original)
+            return;
+          }, cell: ({ value, row }) => <div>{row.values.name}</div> }
         ]}
       />
     </div>

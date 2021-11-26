@@ -14,13 +14,13 @@ interface Page {
   page_size: number;
 }
 
-interface DefaultAccessors {
-  actions_field: any;
+interface OriginalRow<T> {
+  original: T
 }
 
 export interface IColumns<T extends {}> {
   header: string;
-  accessor: keyof T | (() => any);
+  accessor?: keyof T | ((originalRow: OriginalRow<T>, originalIndex: number | string) => any);
   cell?: (arg1: CellProps<T, string>, arg2: T) => JSX.Element;
 }
 
@@ -43,7 +43,7 @@ export default function Table<T extends {}>(props: TableProps<T>) {
         ...(column.cell && { Cell: column.cell })
       };
     });
-  }, []);
+  }, []) as Column<T>[];
 
   const {
     getTableProps,
