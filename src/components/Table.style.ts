@@ -13,13 +13,16 @@ export const TableHead = styled.thead``;
 
 export const TableBody = styled.tbody``;
 
-export const TableContainer = styled.table``;
+export const TableContainer = styled.table`
+  width: 100%;
+`;
 
 export const TableCell = styled.td`
   font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 14px;
   color: #434343;
+  text-align: center;
 
   border-bottom: 1px solid #e0e0e0;
   padding: 0.5rem;

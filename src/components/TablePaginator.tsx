@@ -1,5 +1,6 @@
 import React from 'react';
 import Pagination from '@mui/material/Pagination';
+import TablePagination from '@mui/material/TablePagination';
 import Stack from '@mui/material/Stack';
 
 interface TablePaginatorProps {
@@ -24,17 +25,24 @@ const TablePaginator: React.FC<TablePaginatorProps> = ({
   goToPage
 }) => {
   const handleOnChange = (val: any, pageNumber: number) => {
+    if (pageNumber === 0) {
+      goToPage(pageNumber);
+      return;
+    }
+
     goToPage(pageNumber - 1);
   };
 
   return (
     <Stack spacing={2}>
-      <Pagination
+      <TablePagination
         showFirstButton={canPreviousPage}
         showLastButton={canNextPage}
-        count={pageCount}
+        rowsPerPage={pageSize}
+        count={30}
         page={pageIndex + 1}
-        onChange={(val, pageNumber) => {
+        labelRowsPerPage='Lineas Por Pagina:'
+        onPageChange={(val, pageNumber) => {
           handleOnChange(val, pageNumber);
         }}
       />
