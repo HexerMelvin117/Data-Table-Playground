@@ -54,6 +54,7 @@ export default function Table<T extends {}>(props: TableProps<T>) {
     prepareRow,
     nextPage,
     previousPage,
+    gotoPage,
     canNextPage,
     canPreviousPage,
     state
@@ -98,6 +99,7 @@ export default function Table<T extends {}>(props: TableProps<T>) {
         </TableBody>
       </TableContainer>
       <TablePaginator
+        goToPage={gotoPage}
         canNextPage={canNextPage}
         canPreviousPage={canPreviousPage}
         nextPage={nextPage}

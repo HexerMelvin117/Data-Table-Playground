@@ -10,6 +10,7 @@ interface TablePaginatorProps {
   pageIndex: number;
   pageSize: number;
   pageCount: number;
+  goToPage: (updater: number | ((pageIndex: number) => number)) => void;
 }
 
 const TablePaginator: React.FC<TablePaginatorProps> = ({
@@ -19,24 +20,18 @@ const TablePaginator: React.FC<TablePaginatorProps> = ({
   canPreviousPage,
   pageIndex,
   pageSize,
-  pageCount
+  pageCount,
+  goToPage
 }) => {
   const handleOnChange = (val: any, pageNumber: number) => {
-    console.log({val});
-    if (pageNumber > (pageIndex + 1)) {
-      nextPage();
-      return;
-    };
-
-    if (pageNumber < (pageIndex + 1)) {
-      previousPage();
-      return;
-    }
-  }
+    goToPage(pageNumber - 1);
+  };
 
   return (
     <Stack spacing={2}>
       <Pagination
+        showFirstButton={canPreviousPage}
+        showLastButton={canNextPage}
         count={pageCount}
         page={pageIndex + 1}
         onChange={(val, pageNumber) => {
