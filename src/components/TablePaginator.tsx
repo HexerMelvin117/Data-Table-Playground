@@ -25,12 +25,7 @@ const TablePaginator: React.FC<TablePaginatorProps> = ({
   goToPage
 }) => {
   const handleOnChange = (val: any, pageNumber: number) => {
-    if (pageNumber === 0) {
-      goToPage(pageNumber);
-      return;
-    }
-
-    goToPage(pageNumber - 1);
+    goToPage(pageNumber);
   };
 
   return (
@@ -40,7 +35,7 @@ const TablePaginator: React.FC<TablePaginatorProps> = ({
         showLastButton={canNextPage}
         rowsPerPage={pageSize}
         count={30}
-        page={pageIndex + 1}
+        page={pageIndex}
         labelRowsPerPage='Lineas Por Pagina:'
         onPageChange={(val, pageNumber) => {
           handleOnChange(val, pageNumber);
