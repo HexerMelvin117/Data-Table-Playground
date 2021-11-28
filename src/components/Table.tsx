@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useTable, usePagination, CellProps, Column, Accessor } from 'react-table';
+import { useTable, usePagination, CellProps, Column } from 'react-table';
 import {
   TableHeader,
   TableContainer,
@@ -15,12 +15,14 @@ interface Page {
 }
 
 interface OriginalRow<T> {
-  original: T
+  original: T;
 }
 
 export interface IColumns<T extends {}> {
   header: string;
-  accessor?: keyof T | ((originalRow: OriginalRow<T>, originalIndex: number | string) => any);
+  accessor?:
+    | keyof T
+    | ((originalRow: OriginalRow<T>, originalIndex: number | string) => any);
   cell?: (arg1: CellProps<T, string>, arg2: T) => JSX.Element;
 }
 
@@ -38,8 +40,8 @@ export default function Table<T extends {}>(props: TableProps<T>) {
       return {
         Header: column.header,
         ...(column.accessor && {
-            accessor: column.accessor
-          }),
+          accessor: column.accessor
+        }),
         ...(column.cell && { Cell: column.cell })
       };
     });
@@ -49,7 +51,6 @@ export default function Table<T extends {}>(props: TableProps<T>) {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
     page,
     prepareRow,
     nextPage,
@@ -57,6 +58,7 @@ export default function Table<T extends {}>(props: TableProps<T>) {
     gotoPage,
     canNextPage,
     canPreviousPage,
+    setPageSize,
     state
   } = useTable(
     {
@@ -107,6 +109,7 @@ export default function Table<T extends {}>(props: TableProps<T>) {
         pageIndex={state.pageIndex}
         pageSize={state.pageSize}
         pageCount={5}
+        setPageSize={setPageSize}
       />
     </>
   );

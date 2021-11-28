@@ -1,5 +1,4 @@
 import React from 'react';
-import Pagination from '@mui/material/Pagination';
 import TablePagination from '@mui/material/TablePagination';
 import Stack from '@mui/material/Stack';
 
@@ -12,6 +11,7 @@ interface TablePaginatorProps {
   pageSize: number;
   pageCount: number;
   goToPage: (updater: number | ((pageIndex: number) => number)) => void;
+  setPageSize: (pageSize: number) => void;
 }
 
 const TablePaginator: React.FC<TablePaginatorProps> = ({
@@ -22,9 +22,13 @@ const TablePaginator: React.FC<TablePaginatorProps> = ({
   pageIndex,
   pageSize,
   pageCount,
-  goToPage
+  goToPage,
+  setPageSize
 }) => {
-  const handleOnChange = (val: any, pageNumber: number) => {
+  const handleOnChange = (
+    val: React.MouseEvent<HTMLButtonElement, MouseEvent> | null,
+    pageNumber: number
+  ) => {
     goToPage(pageNumber);
   };
 
@@ -36,9 +40,15 @@ const TablePaginator: React.FC<TablePaginatorProps> = ({
         rowsPerPage={pageSize}
         count={30}
         page={pageIndex}
-        labelRowsPerPage='Lineas Por Pagina:'
+        labelRowsPerPage="Lineas Por Pagina:"
         onPageChange={(val, pageNumber) => {
           handleOnChange(val, pageNumber);
+        }}
+        // @ts-ignore
+        onRowsPerPageChange={(
+          event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+        ) => {
+          setPageSize(Number(event.target.value));
         }}
       />
     </Stack>
