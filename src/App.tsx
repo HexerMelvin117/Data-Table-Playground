@@ -1,16 +1,16 @@
 import React from 'react';
 import './App.css';
 import Table from './components/Table';
+import ColumnFilter from './components/ColumnFilter';
 import mockData from './mockData';
 
 function App() {
-  // Field por accesor
   return (
     <div className="App">
       <Table
         data={mockData}
         columns={[
-          { header: 'Name', accessor: 'name' },
+          { header: 'Name', accessor: 'name', filter: ColumnFilter },
           {
             header: 'Surname',
             accessor: 'surname',

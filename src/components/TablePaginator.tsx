@@ -15,8 +15,6 @@ interface TablePaginatorProps {
 }
 
 const TablePaginator: React.FC<TablePaginatorProps> = ({
-  nextPage,
-  previousPage,
   canNextPage,
   canPreviousPage,
   pageIndex,

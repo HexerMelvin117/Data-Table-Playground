@@ -1,5 +1,12 @@
 import React, { useMemo } from 'react';
-import { useTable, usePagination, CellProps, Column } from 'react-table';
+import {
+  useTable,
+  usePagination,
+  CellProps,
+  Column,
+  useFilters
+} from 'react-table';
+import { ColumnFilterProps } from './ColumnFilter';
 import {
   TableHeader,
   TableContainer,
@@ -8,6 +15,9 @@ import {
   TableCell
 } from './Table.style';
 import TablePaginator from './TablePaginator';
+import ColumnFilter from './ColumnFilter';
+import FilterIcon from './assets/svg/FilterIcon';
+import FilterOptionsPopover from './FilterPopover';
 
 interface Page {
   page: number;
@@ -24,6 +34,7 @@ export interface IColumns<T extends {}> {
     | keyof T
     | ((originalRow: OriginalRow<T>, originalIndex: number | string) => any);
   cell?: (arg1: CellProps<T, string>, arg2: T) => JSX.Element;
+  filter?: React.FC<ColumnFilterProps>;
 }
 
 interface TableProps<T> {
@@ -42,10 +53,19 @@ export default function Table<T extends {}>(props: TableProps<T>) {
         ...(column.accessor && {
           accessor: column.accessor
         }),
-        ...(column.cell && { Cell: column.cell })
+        ...(column.cell && { Cell: column.cell }),
+        ...(column.filter && { Filter: column.filter })
       };
     });
   }, []) as Column<T>[];
+
+  const defaultColumn = useMemo(
+    () => ({
+      // Let's set up our default Filter UI
+      Filter: ColumnFilter
+    }),
+    []
+  );
 
   const {
     getTableProps,
@@ -64,8 +84,10 @@ export default function Table<T extends {}>(props: TableProps<T>) {
     {
       columns: memoizedColumns,
       data,
-      initialState: { pageIndex: 0, pageSize: 10 }
+      initialState: { pageIndex: 0, pageSize: 10 },
+      defaultColumn
     },
+    useFilters,
     usePagination
   );
 
@@ -75,11 +97,22 @@ export default function Table<T extends {}>(props: TableProps<T>) {
         <TableHead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <TableHeader {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                </TableHeader>
-              ))}
+              {headerGroup.headers.map(column => {
+                console.log({ columnType: column });
+
+                return (
+                  <TableHeader {...column.getHeaderProps()}>
+                    {column.render('Header')}
+                    {
+                      column.canFilter && (
+                        <FilterOptionsPopover>
+                          {column.render('Filter')}
+                        </FilterOptionsPopover>
+                      ) /*<div>{column.render('Filter')}</div>*/
+                    }
+                  </TableHeader>
+                );
+              })}
             </tr>
           ))}
         </TableHead>
