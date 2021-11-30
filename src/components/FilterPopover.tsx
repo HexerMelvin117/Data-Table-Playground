@@ -13,7 +13,7 @@ const FilterButton = styled.button`
   cursor: pointer;
   font-size: 0;
   vertical-align: bottom;
-  margin-left: 10px;
+  margin-left: 5px;
 `;
 
 const FilterContent = styled.div`
