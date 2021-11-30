@@ -16,7 +16,6 @@ import {
 } from './Table.style';
 import TablePaginator from './TablePaginator';
 import ColumnFilter from './ColumnFilter';
-import FilterIcon from './assets/svg/FilterIcon';
 import FilterOptionsPopover from './FilterPopover';
 
 interface Page {
@@ -98,18 +97,14 @@ export default function Table<T extends {}>(props: TableProps<T>) {
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => {
-                console.log({ columnType: column });
-
                 return (
                   <TableHeader {...column.getHeaderProps()}>
                     {column.render('Header')}
-                    {
-                      column.canFilter && (
-                        <FilterOptionsPopover>
-                          {column.render('Filter')}
-                        </FilterOptionsPopover>
-                      ) /*<div>{column.render('Filter')}</div>*/
-                    }
+                    {column.canFilter && (
+                      <FilterOptionsPopover>
+                        {column.render('Filter')}
+                      </FilterOptionsPopover>
+                    )}
                   </TableHeader>
                 );
               })}
